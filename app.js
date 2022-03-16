@@ -1,150 +1,112 @@
 'use strict';
 
-let hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
-let section = document.getElementById('Cookie-sales');
-let seattle = {
-  storeName: 'seattle',
-  minCust: 23,
-  maxCust: 65,
-  avgCookiebought: 6.3,
-  hourlySales : [],
-  totalCookies: 0,
-  randomGen: function () {
-    for (let i = 0; i < hours.length; i++) {
-      let CustomersperHour = (Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-      this.hourlySales[i] = Math.ceil(CustomersperHour * this.avgCookiebought);
-      this.totalCookies = this.totalCookies + this.hourlySales[i];
-    }
-    // return this.hourlySales;
-  },
-  render: function () {
-    let h2Element = document.createElement('h2');
-    h2Element.innerText = this.storeName;
-    section.appendChild(h2Element);
-    let ulElement = document.createElement('ul');
-    section.appendChild(ulElement);
-    for (let i = 0; i < this.hourlySales.length; i++){
-      let liElement = document.createElement('li');
-      liElement.textContent = `${hours[i]}: ${this.hourlySales[i]} cookies`;
-      ulElement.appendChild(liElement);
-    }
-    let liElement = document.createElement('li');
-    liElement.textContent = `total ${this.totalCookies} cookies`;
-    ulElement.appendChild(liElement);
-  }
-};
-seattle.randomGen();
-console.log(seattle);
-console.log(Math.random());
-seattle.render();
+let storesArray = [];
+let hoursArray = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 
-let tokyo = {
-  storeName: 'tokyo',
-  minCust: 3,
-  maxCust: 24,
-  avgCookiebought: 1.2,
-  hourlySales : [],
-  totalCookies: 0,
-  randomGen: function () {
-    for (let i = 0; i < hours.length; i++) {
-      let CustomersperHour = (Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-      this.hourlySales[i] = Math.ceil(CustomersperHour * this.avgCookiebought);
-      this.totalCookies = this.totalCookies + this.hourlySales[i];
-    }
-    // return this.hourlySales;
-  },
-  render: function () {
-    let h2Element = document.createElement('h2');
-    h2Element.innerText = this.storeName;
-    section.appendChild(h2Element);
-    let ulElement = document.createElement('ul');
-    section.appendChild(ulElement);
-    for (let i = 0; i < this.hourlySales.length; i++){
-      let liElement = document.createElement('li');
-      liElement.textContent = `${hours[i]}: ${this.hourlySales[i]} cookies`;
-      ulElement.appendChild(liElement);
-    }
-    let liElement = document.createElement('li');
-    liElement.textContent = `total ${this.totalCookies} cookies`;
-    ulElement.appendChild(liElement);
-  }
-};
-tokyo.randomGen();
-console.log(tokyo);
-console.log(Math.random());
-tokyo.render();
+let table = document.getElementById('Cookie-sales');
+// reference for the table. No longer a section
 
-let dubai = {
-  storeName: 'dubai',
-  minCust: 11,
-  maxCust: 38,
-  avgCookiebought: 3.7,
-  hourlySales : [],
-  totalCookies: 0,
-  randomGen: function () {
-    for (let i = 0; i < hours.length; i++) {
-      let CustomersperHour = (Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-      this.hourlySales[i] = Math.ceil(CustomersperHour * this.avgCookiebought);
-      this.totalCookies = this.totalCookies + this.hourlySales[i];
-    }
-    // return this.hourlySales;
-  },
-  render: function () {
-    let h2Element = document.createElement('h2');
-    h2Element.innerText = this.storeName;
-    section.appendChild(h2Element);
-    let ulElement = document.createElement('ul');
-    section.appendChild(ulElement);
-    for (let i = 0; i < this.hourlySales.length; i++){
-      let liElement = document.createElement('li');
-      liElement.textContent = `${hours[i]}: ${this.hourlySales[i]} cookies`;
-      ulElement.appendChild(liElement);
-    }
-    let liElement = document.createElement('li');
-    liElement.textContent = `total ${this.totalCookies} cookies`;
-    ulElement.appendChild(liElement);
-  }
-};
-dubai.randomGen();
-console.log(dubai);
-console.log(Math.random());
-dubai.render();
 
-let lima = {
-  storeName: 'lima',
-  minCust: 2,
-  maxCust: 16,
-  avgCookiebought: 4.6,
-  hourlySales : [],
-  totalCookies: 0,
-  randomGen: function () {
-    for (let i = 0; i < hours.length; i++) {
-      let CustomersperHour = (Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-      this.hourlySales[i] = Math.ceil(CustomersperHour * this.avgCookiebought);
-      this.totalCookies = this.totalCookies + this.hourlySales[i];
-    }
-    // return this.hourlySales;
-  },
-  render: function () {
-    let h2Element = document.createElement('h2');
-    h2Element.innerText = this.storeName;
-    section.appendChild(h2Element);
-    let ulElement = document.createElement('ul');
-    section.appendChild(ulElement);
-    for (let i = 0; i < this.hourlySales.length; i++){
-      let liElement = document.createElement('li');
-      liElement.textContent = `${hours[i]}: ${this.hourlySales[i]} cookies`;
-      ulElement.appendChild(liElement);
-    }
-    let liElement = document.createElement('li');
-    liElement.textContent = `total ${this.totalCookies} cookies`;
-    ulElement.appendChild(liElement);
+// constructor always cap first letter
+let Stores = function(storeName, minCust, maxCust, avgCookiebought) {
+  this.storeName = storeName;
+  this.minCust = parseInt(minCust);
+  this.maxCust = parseInt(maxCust);
+  this.customersPerHour = [];
+  this.cookiesPerHour = [];
+  this.avgCookiebought = avgCookiebought;
+  this.totalCookies = 0;
+  storesArray.push(this);
+
+};
+
+let storeOne = new Stores ('seattle', 23, 65, 6.3);
+let storeTwo = new Stores ('tokyo', 3, 24 ,1.2);
+let storeThree = new Stores ('dubai', 11, 38, 3.7);
+let storeFour = new Stores ('lima', 2, 16, 4.6);
+// console.log(storesArray);
+
+Stores.prototype.createCustomerNumber = function(){
+  for (let i = 0; i < hoursArray.length; i++){
+    let customers = Math.ceil(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) ;
+    this.customersPerHour.push(customers);
+
+  }
+
+};
+
+Stores.prototype.createHourlyCookies = function() {
+  this.createCustomerNumber();
+  for (let i = 0; i < hoursArray.length; i++){
+    let hourlyCookies = Math.ceil(this.customersPerHour[i] * this.avgCookiebought);
+    this.cookiesPerHour.push(hourlyCookies);
+
+  }
+
+
+};
+
+// creating table ---
+Stores.prototype.createTable = function(){
+  this.createHourlyCookies();
+  const row = document.createElement('tr');
+  let tabledata = document.createElement('td');
+  tabledata.textContent = this.storeName;
+  row.appendChild(tabledata);
+  table.appendChild(row);
+
+  for (let i = 0; i < this.cookiesPerHour.length; i++){
+    tabledata = document.createElement('td');
+    tabledata.textContent = this.cookiesPerHour[i];
+    row.appendChild(tabledata);
+
   }
 };
-lima.randomGen();
-console.log(lima);
-console.log(Math.random());
-lima.render();
+storeOne.createTable();
+storeTwo.createTable();
+storeThree.createTable();
+storeFour.createTable();
+
+// // use tf for footer of grand totals
+// //use td for header of store hours
+
+function headerRow(){
+  let tableHeader = document.createElement('thead');
+  table.appendChild(tableHeader);
+
+  let row1 = document.createElement('tr');
+  tableHeader.appendChild(row1);
+
+  let blankCell = document.createElement('td');
+  row1.appendChild(blankCell);
+
+  for(let i = 0; i < hoursArray.length; i++){
+    let timeElem = document.createElement('th');
+    timeElem.textContent = `${hoursArray[i]}`;
+    row1.appendChild(timeElem);
+  }
+  let totalCell = document.createElement('th');
+  totalCell.textContent = 'Daily Location Totals';
+  row1.appendChild(totalCell);
+}
+
+function footerRow(){
+  let tableFooter = document.createElement('tfoot');
+  table.appendChild(tableFooter);
+  let row1 = document.createElement('tr');
+  tableFooter.appendChild(row1);
+
+  let totalElem = document.createElement('th');
+  totalElem.textContent = 'Totals';
+  row1.appendChild(totalElem);
+}
+footerRow();
+headerRow();
+//ask about why all your things moved to the right now
+
+
+
+
 
 
 
