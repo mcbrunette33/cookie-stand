@@ -32,7 +32,25 @@ body {
     max-width: fit-content;
 
 }
+.woot {
+  width: 400px;  
+    height: 150px;  
+    border: 5px solid rgb(218, 10, 10);  
+    background-color: rgb(107, 184, 107);  
+    object-fit: scale-down;  
+    object-position: center; 
+    max-width: fit-content;
+  
+
+}
 p { 
   text-shadow: none;
-  font-family:fantasy;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: large;
+}
+footer {
+  text-shadow: rgb(3, 11, 17);
+  font-style: italic;
+  color: rgb(247, 55, 215);
+
 }

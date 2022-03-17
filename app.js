@@ -2,14 +2,26 @@
 
 let storesArray = [];
 let hoursArray = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
+let allTheCookies = 0;
+// let today;
+// let cookiesPerToday = today[Math.floor(Math.random() * today.length)];
 
 let table = document.getElementById('Cookie-sales');
 // reference for the table. No longer a section
 
 let myform = document.getElementById('NewStoreForm');
 
+function cookiesByHour(index) {
+  let total = 0;
+  for (let i = 0; i < storesArray.length; i++) {
+    total += storesArray[i].cookiesPerHour[index];
+  }
+  allTheCookies += total;
+  return total;
+}
+
 // constructor always cap first letter
-let Stores = function(storeName, minCust, maxCust, avgCookiebought) {
+let Stores = function (storeName, minCust, maxCust, avgCookiebought) {
   this.storeName = storeName;
   this.minCust = parseInt(minCust);
   this.maxCust = parseInt(maxCust);
@@ -21,24 +33,24 @@ let Stores = function(storeName, minCust, maxCust, avgCookiebought) {
 
 };
 
-let storeOne = new Stores ('seattle', 23, 65, 6.3);
-let storeTwo = new Stores ('tokyo', 3, 24 ,1.2);
-let storeThree = new Stores ('dubai', 11, 38, 3.7);
-let storeFour = new Stores ('lima', 2, 16, 4.6);
+let storeOne = new Stores('seattle', 23, 65, 6.3);
+let storeTwo = new Stores('tokyo', 3, 24, 1.2);
+let storeThree = new Stores('dubai', 11, 38, 3.7);
+let storeFour = new Stores('lima', 2, 16, 4.6);
 // console.log(storesArray);
 
-Stores.prototype.createCustomerNumber = function(){
-  for (let i = 0; i < hoursArray.length; i++){
-    let customers = Math.ceil(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) ;
+Stores.prototype.createCustomerNumber = function () {
+  for (let i = 0; i < hoursArray.length; i++) {
+    let customers = Math.ceil(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
     this.customersPerHour.push(customers);
 
   }
 
 };
 
-Stores.prototype.createHourlyCookies = function() {
+Stores.prototype.createHourlyCookies = function () {
   this.createCustomerNumber();
-  for (let i = 0; i < hoursArray.length; i++){
+  for (let i = 0; i < hoursArray.length; i++) {
     let hourlyCookies = Math.ceil(this.customersPerHour[i] * this.avgCookiebought);
     this.cookiesPerHour.push(hourlyCookies);
 
@@ -47,8 +59,8 @@ Stores.prototype.createHourlyCookies = function() {
 
 };
 
-// creating table ---
-Stores.prototype.createTable = function(){
+// creating tables ---
+Stores.prototype.createTable = function () {
   this.createHourlyCookies();
   const row = document.createElement('tr');
   let tabledata = document.createElement('td');
@@ -56,7 +68,7 @@ Stores.prototype.createTable = function(){
   row.appendChild(tabledata);
   table.appendChild(row);
 
-  for (let i = 0; i < this.cookiesPerHour.length; i++){
+  for (let i = 0; i < this.cookiesPerHour.length; i++) {
     tabledata = document.createElement('td');
     tabledata.textContent = this.cookiesPerHour[i];
     row.appendChild(tabledata);
@@ -71,7 +83,7 @@ storeFour.createTable();
 // // use tfoot for footer of grand totals
 // //use td for header of store hours
 
-function headerRow(){
+function headerRow() {
   let tableHeader = document.createElement('thead');
   table.appendChild(tableHeader);
 
@@ -81,7 +93,7 @@ function headerRow(){
   let blankCell = document.createElement('td');
   row1.appendChild(blankCell);
 
-  for(let i = 0; i < hoursArray.length; i++){
+  for (let i = 0; i < hoursArray.length; i++) {
     let timeElem = document.createElement('th');
     timeElem.textContent = `${hoursArray[i]}`;
     row1.appendChild(timeElem);
@@ -91,20 +103,31 @@ function headerRow(){
   row1.appendChild(totalCell);
 }
 
-function footerRow(){
+function footerRow() {
   let tableFooter = document.createElement('tfoot');
   table.appendChild(tableFooter);
-  let row1 = document.createElement('tr');
-  tableFooter.appendChild(row1);
+  let tr = document.createElement('tr');
+  let th = document.createElement('th');
 
-  let totalElem = document.createElement('th');
-  totalElem.textContent = 'Totals';
-  row1.appendChild(totalElem);
+  tableFooter.appendChild(tr);
+  tableFooter.appendChild(th);
+
+  th.textContent = 'Totals';
+  tr.appendChild(th);
+
+  let td;
+  for (let i = 0; i < hoursArray.length; i++) {
+    td = document.createElement('td');
+    td.textContent = `${cookiesByHour(i)}`;
+    console.log(td);
+    tr.appendChild(td);
+  }
+  tr.appendChild(td);
+  table.appendChild(tr);
 
 }
 
-
-function NewStoreLocations (event){
+function NewStoreLocations(event) {
   event.preventDefault();
   // console.log('submit')
   let location = event.target.inputLocation.value;
@@ -117,6 +140,4 @@ function NewStoreLocations (event){
 
 footerRow();
 headerRow();
-//ask about why all your things moved to the right now
-
 myform.addEventListener('submit', NewStoreLocations);
