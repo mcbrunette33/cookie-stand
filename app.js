@@ -6,6 +6,7 @@ let hoursArray = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2p
 let table = document.getElementById('Cookie-sales');
 // reference for the table. No longer a section
 
+let myform = document.getElementById('NewStoreForm');
 
 // constructor always cap first letter
 let Stores = function(storeName, minCust, maxCust, avgCookiebought) {
@@ -67,7 +68,7 @@ storeTwo.createTable();
 storeThree.createTable();
 storeFour.createTable();
 
-// // use tf for footer of grand totals
+// // use tfoot for footer of grand totals
 // //use td for header of store hours
 
 function headerRow(){
@@ -99,19 +100,23 @@ function footerRow(){
   let totalElem = document.createElement('th');
   totalElem.textContent = 'Totals';
   row1.appendChild(totalElem);
+
 }
+
+
+function NewStoreLocations (event){
+  event.preventDefault();
+  // console.log('submit')
+  let location = event.target.inputLocation.value;
+  let MinimumCustomers = +event.target.inputMinCust.value;
+  let MaximumCustomers = +event.target.inputMaxCust.value;
+  let AvgCookiesbought = +event.target.inputAvgCookies.value;
+  let NewStorezz = new Stores(location, MinimumCustomers, MaximumCustomers, AvgCookiesbought);
+  NewStorezz.createTable();
+}
+
 footerRow();
 headerRow();
 //ask about why all your things moved to the right now
 
-
-
-
-
-
-
-
-
-
-
-
+myform.addEventListener('submit', NewStoreLocations);
